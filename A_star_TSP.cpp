@@ -1,4 +1,4 @@
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
   
 int originalGraph[40][40],minimumSpanningTree[40][40];
