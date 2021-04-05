@@ -44,6 +44,7 @@ class TSP
     
      char node[3];
      int points[40][2],numCities;
+     int getc_unlocked(FILE *stream);
      //TSP(int i,int j) : x(i),y(j){}
      
      void inputData()
