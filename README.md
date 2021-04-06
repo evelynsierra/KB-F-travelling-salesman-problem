@@ -31,7 +31,7 @@ printf("Minimum cost\n");
 ```
 
 Selanjutnya, untuk setiap edge tambahkan cost. Kemudian, cost tersebut akan menjadi nilai dari setiap array 2-dimensi `G[i][j]`.
-```
+```C
 for (i = 0; i < E; i++)
 	{
 		printf("Enter the edges(V1 V2 Cost) : ");
@@ -41,7 +41,8 @@ for (i = 0; i < E; i++)
 ```
 
 Masukkan nilai source dan destination yang diinginkan. Apabila nilai source atau destination lebih besar daripada jumlah vertices, hasilnya tidak akan keluar. Sebaliknya, function `DFS()` akan berjalan dengan memasukkan parameter `source`
-```printf("\nEnter the source: ");
+```C
+printf("\nEnter the source: ");
 	scanf("%d", &source);
 	printf("Enter the destination: ");
 	scanf("%d", &dest);
@@ -65,7 +66,7 @@ Masukkan nilai source dan destination yang diinginkan. Apabila nilai source atau
 	}
 ```
 Pada function `DFS()`, tandai visited[i] = 1, sebagai tanda telah dikunjungi, dan lakukan looping.
-```
+```C
 void DFS(int i)
 {
 	int j;
