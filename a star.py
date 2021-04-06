@@ -1,8 +1,7 @@
 from treelib import Node,Tree
 import sys
 
-# Final 
-# Structure to represent tree nodes in the A* expansion
+# Class untuk merepresentasikan node tree di pelebaran A*
 class TreeNode(object): 
         def __init__(self, c_no, c_id,  f_value, h_value, parent_id): 
             self.c_no = c_no
@@ -11,7 +10,7 @@ class TreeNode(object):
             self.h_value = h_value
             self.parent_id = parent_id
 
-# Structure to represent fringe nodes in the A* fringe list
+# Class untuk merepresentasikan node fringe di dalam list fringe A*
 class FringeNode(object): 
         def __init__(self, c_no,  f_value): 
             self.f_value = f_value
@@ -25,9 +24,8 @@ class Graph():
         self.graph = [[0 for column in range(vertices)]  
                     for row in range(vertices)] 
   
-    # A utility function to print the constructed MST stored in parent[] 
+    # Fungsi untuk mencetak MST yang disimpan di dalam parent[]
     def printMST(self, parent, g, d_temp, t): 
-        #print("Edge \tWeight")
         sum_weight = 0
         min1 = 10000
         min2 = 10000
@@ -36,7 +34,6 @@ class Graph():
         	r_temp[d_temp[k]] = k
         
         for i in range(1, self.V): 
-            #print(parent[i], "-", i, "\t", self.graph[i][ parent[i] ])
             sum_weight = sum_weight + self.graph[i][ parent[i] ]
             if(graph[0][r_temp[i]] < min1):
             	min1 = graph[0][r_temp[i]]
@@ -50,12 +47,10 @@ class Graph():
         return (sum_weight + min1 + min2)%10000
 
   
-    # A utility function to find the vertex with  
-    # minimum distance value, from the set of vertices  
-    # not yet included in shortest path tree 
+    # Fungsi untuk mencari vertex dengan jarak minimum dari sudut yang belum termasuk ke dalam tree shortest path
     def minKey(self, key, mstSet): 
   
-        # Initilaize min value 
+        # Inisialisasi nilai minimal 
         min = sys.maxsize 
   
         for v in range(self.V): 
@@ -65,34 +60,32 @@ class Graph():
   
         return min_index 
   
-    # Function to construct and print MST for a graph  
-    # represented using adjacency matrix representation 
+    # Fungsi untuk mengonstruksi dan mencetak MST untuk sebuah graf yang direpresentasikan menggunakan matriks adjacency
     def primMST(self, g, d_temp, t): 
   
-        # Key values used to pick minimum weight edge in cut 
+        # mengambil berat minimum edge 
         key = [sys.maxsize] * self.V 
-        parent = [None] * self.V # Array to store constructed MST 
-        # Make key 0 so that this vertex is picked as first vertex 
+        parent = [None] * self.V # Array untuk menyimpan MST yang terkonstruksi
+        # Buat key = 0 sehingga vertex yang diambil adalah vertex pertama
         key[0] = 0 
         mstSet = [False] * self.V 
         sum_weight = 10000
-        parent[0] = -1 # First node is always the root of 
+        parent[0] = -1 # Node pertama selalu dari root
   
         for c in range(self.V): 
-  
-            # Pick the minimum distance vertex from the set of vertices not yet processed.
-            # u is always equal to src in first iteration 
+   
+            # Mengambil jarak minimum vertex dari set of sudut yang belum diproses.
+            # u selalu sama dengan src di iterasi pertama
             u = self.minKey(key, mstSet) 
   
-            # Put the minimum distance vertex in the shortest path tree 
+            # Meletakkan jarak vertex minimum di dalam shortest path tree
             mstSet[u] = True
   
-            # Update dist value of the adjacent vertices of the picked vertex only if the current distance is greater than new distance and  
-            # the vertex in not in the shotest path tree
+            # Update nilai dist dari vertices terdekat untuk pengambilan vertex hanya jika jarak saat ini > jarak baru dan vertex tidak di dalam shortest path tree
             for v in range(self.V): 
-                # graph[u][v] is non zero only for adjacent vertices of m 
-                # mstSet[v] is false for vertices not yet included in MST 
-                # Update the key only if graph[u][v] is smaller than key[v] 
+                # graph[u][v] hanya non zero untuk vertices terdekat dari m
+                # mstSet[v] bernilai false untuk vertices yang belum termasuk di dalam MST
+                # Update key hanya jika graph[u][v] < key[v]
                 if self.graph[u][v] > 0 and mstSet[v] == False and key[v] > self.graph[u][v]: 
                         key[v] = self.graph[u][v] 
                         parent[v] = u 
@@ -100,26 +93,26 @@ class Graph():
         return self.printMST(parent,g,d_temp,t)
     
 
-# Idea here is to form a grpah of all unvisited nodes and make MST from that.
-# Determine weight of that mst and connect it with the visited node and 0th node
-# Prim's Algorithm used for MST (Greedy approach)
+# Fungsi heuristic digunakan untuk membentuk graph dari semua node yang belum dilalui dan membuat Minimum Spanning Tree dari graph tersebut. 
+# Memutuskan bobot dari MST dan menghubungkannya dengan node yang telah dilalui dan node pertama. 
+#Untuk MST digunakan algoritma Prim.
 def heuristic(tree, p_id, t, V, graph):
-	visited = set()							# Set to store visited nodes
+	visited = set()							# Set untuk menyimpan node yang telah dilalui
 	visited.add(0)
 	visited.add(t)
 	if(p_id != -1):
 		tnode=tree.get_node(str(p_id))
-		# Find all visited nodes and add them to the set
+		# Mencari semua node yang telah dilalui dan menambahkannya ke dalam set
 		while(tnode.data.c_id != 1):
 			visited.add(tnode.data.c_no)
 			tnode=tree.get_node(str(tnode.data.parent_id))
 	l = len(visited)
-	num = V - l								# No of unvisited nodes
+	num = V - l								# Urutan node yang belum dilalui
 	if (num != 0 ):
 		g = Graph(num)
 		d_temp = {}
 		key = 0
-		# d_temp dictionary stores mappings of original city no as (key) and new sequential no as value for MST to work
+		# d_temp menyimpan hasil pemetaan nomor kota sesungguhnya sebagai (key) dan nomor urut baru sebagai nilai agar Minimum Spanning Tree bekerja
 		for i in range(V):
 			if(i not in visited):
 				d_temp[i] = key
@@ -131,7 +124,6 @@ def heuristic(tree, p_id, t, V, graph):
 				if((i not in visited) and (j not in visited)):
 					g.graph[d_temp[i]][d_temp[j]] = graph[i][j]
 		
-		#print(g.graph)
 		mst_weight = g.primMST(graph, d_temp, t)
 		return mst_weight
 	else:
@@ -139,17 +131,15 @@ def heuristic(tree, p_id, t, V, graph):
 
 	 
 def checkPath(tree, toExpand, V):
-	tnode=tree.get_node(str(toExpand.c_id))		# Get the node to expand from the tree
-	list1 = list()								# List to store the path
-	# For 1st node
+	tnode=tree.get_node(str(toExpand.c_id))		# Mengambil node dari tree untuk melebar
+	list1 = list()								# List untuk menyimpan rute
+	# Untuk node pertama
 	if(tnode.data.c_id == 1):
-		#print("In If")
 		return 0
 	else:
-		#print("In else")
-		depth = tree.depth(tnode)				# Check depth of the tree
-		s = set()								# Set to store nodes in the path
-		# Go up in the tree using the parent pointer and add all nodes in the way to the set and list
+		depth = tree.depth(tnode)				# Mengecek kedalaman tree
+		s = set()								# Set untuk menyimpan node di dalam rute
+		# Berjalan ke atas dalam tree menggunakan parent pointer dan menambahkan semua node yang sejalan dengan set dan list
 		while(tnode.data.c_id != 1):
 			s.add(tnode.data.c_no)
 			list1.append(tnode.data.c_no)
@@ -165,13 +155,12 @@ def checkPath(tree, toExpand, V):
 
 def startTSP(graph,tree,V):
 	goalState = 0
-	times = 0
-	toExpand = TreeNode(0,0,0,0,0)		# Node to expand
-	key = 1								# Unique Identifier for a node in the tree
-	heu = heuristic(tree,-1,0,V,graph)	# Heurisitic for node 0 in the tree
-	tree.create_node("1", "1", data=TreeNode(0,1,heu,heu,-1))		# Create 1st node in the tree i.e. 0th city
+	toExpand = TreeNode(0,0,0,0,0)		# Node untuk melebar
+	key = 1								# Unique Identifier untuk sebuah node dalam tree
+	heu = heuristic(tree,-1,0,V,graph)	# Heurisitic untuk node = 0 di dalam tree
+	tree.create_node("1", "1", data=TreeNode(0,1,heu,heu,-1))		# Membuat node pertama
 	fringe_list = {}					# Fringe List(Dictionary)(FL)
-	fringe_list[key] = FringeNode(0, heu)							# Adding 1st node in FL
+	fringe_list[key] = FringeNode(0, heu)							# Menambah node pertama di FL
 	key = key + 1
 	while(goalState == 0):
 		minf = sys.maxsize
@@ -183,21 +172,21 @@ def startTSP(graph,tree,V):
 				toExpand.c_id = i
 				minf = fringe_list[i].f_value
 
-		h = tree.get_node(str(toExpand.c_id)).data.h_value		# Heuristic value of selected node
-		val=toExpand.f_value - h								# g value of selected node
-		path = checkPath(tree, toExpand, V)						# Check path of selected node if it is complete or not
-		# If node to expand is 0 and path is complete, we are done
-		# We check node at the time of expansion and not at the time of generation
+		h = tree.get_node(str(toExpand.c_id)).data.h_value		#nilai h(n)
+		val=toExpand.f_value - h								# nilai g(n)
+		path = checkPath(tree, toExpand, V)						# mengecek node terpilih apakah sudah tidak ada cabang lagi atau masih ada
+		# jika node yang melebar adalah 0 dan rutenya tidak ada child lagi, maka program selesai. 
+		# Selain itu, kita mengecek node saat ekspansi dan bukan saat inisialisasi
 		if(toExpand.c_no==0 and path==1):
-			goalState=1;
-			cost=toExpand.f_value				# Total actual cost incurred
+			goalState=1
+			cost=toExpand.f_value				
 		else:
-			del fringe_list[toExpand.c_id]		# Remove node from FL
+			del fringe_list[toExpand.c_id]		# Menghapus node dari List Fringe
 			j=0
-			# Evaluate f_values and h_values of adjacent nodes of the node to expand
+			# Menghitung f(n) dan h(n) dari node yang berdekatan untuk melebar
 			while(j<V):
 				if(j!=toExpand.c_no):
-					h = heuristic(tree, toExpand.c_id, j, V, graph)			# Heuristic calc
+					h = heuristic(tree, toExpand.c_id, j, V, graph)			# Menghitung besar h(n)
 					f_val = val + graph[j][toExpand.c_no] + h				# g(parent) + g(parent->child) + h(child)
 					fringe_list[key] = FringeNode(j, f_val)
 					tree.create_node(str(toExpand.c_no), str(key),parent=str(toExpand.c_id), data=TreeNode(j,key,f_val,h,toExpand.c_id))
@@ -206,22 +195,8 @@ def startTSP(graph,tree,V):
 	return cost
 
 if __name__ == '__main__':
-	
-	#graph = [[0,300],[300,0]]
-	graph = [[0,300,200],[300,0,500],[200,500,0]]
-	V=3
-	#graph=[[0,5,2,3],[5,0,6,3],[2,6,0,4],[3,3,4,0]]
-	#graph=[[0,10,15,20],[10,0,35,25],[15,35,0,30],[20,25,30,0]]
-	'''
-	print("Enter no of cities")
-	V = int(input())
-	rows, cols = (V, V)
-	graph = [[0 for i in range(cols)] for j in range(rows)] 
-	print("Enter adjacency matrix")
-	for i in range(rows):
-		for j in range(cols):
-			graph[i][j]=int(input())
-	'''
+	V = 4
+	graph = [[-1,10,15,20],[10,-1,35,25],[15,35,-1,30],[20,25,30,-1]]
 	tree = Tree()
 	ans = startTSP(graph,tree,V)
 	print("Ans is "+str(ans))
