@@ -113,3 +113,4 @@ Dari penjelasan diatas, dapat disimpulkan bahwa DFS tidak dapat mendapatkan nila
 
 
 ## Using UCS Search ##
+Uniform-Cost Search adalah variant dari algoritma Dijikstra. Di dalam codingan ini, kita hanya memasukkan source saja dan memasukkan satu per satu apabila diperlukan. Setiap langkahnya, akan dicek apakah sudah berada di dalam array. Jika iya, maka key akan di kurangi, Jika tidak, maka kita memasukkannya.
