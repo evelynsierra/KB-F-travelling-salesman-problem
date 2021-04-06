@@ -12,7 +12,8 @@ Untuk memecahkan masalah ini, digunakan informed search dan uninformed search. K
 
 ## Using DFS Search ##
 Langkah pertama adalah memasukkan total vertices dan total edges yang diinginkan. Kemudian gunakan looping untuk membuat isi Graph menjadi 0. 
-```printf("Minimum cost\n");
+```C
+printf("Minimum cost\n");
 	printf("Input total vertices: ");
 	scanf("%d", &V);
 
