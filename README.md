@@ -6,14 +6,13 @@ NRP | NAMA
 05111940000111  | Evelyn Sierra
 05111940000042  | Bayu Eka Prawira
 
-##Pendahuluan##
+## Pendahuluan ##
 The travelling salesman problem (atau yang biasa disebut dengan TSP) menanyakan pertanyaan berikut: "Diberikan daftar kota dan jarak antara setiap pasangan kota, apa rute terpendek yang mungkin mengunjungi setiap kota tepat satu kali dan kembali ke kota asal? " 
 Untuk memecahkan masalah ini, digunakan informed search dan uninformed search. Khusus untuk uninformed search, setiap salesman tersebut pernah mengunjungi kota tersebut, kota itu akan ditandai sehingga tidak memunculkan looping yang berulang.
 
-##Using DFS Search##
+## Using DFS Search ##
 Langkah pertama adalah memasukkan total vertices dan total edges yang diinginkan. Kemudian gunakan looping untuk membuat isi Graph menjadi 0. 
-```
-	printf("Minimum cost\n");
+```printf("Minimum cost\n");
 	printf("Input total vertices: ");
 	scanf("%d", &V);
 
@@ -41,8 +40,7 @@ for (i = 0; i < E; i++)
 ```
 
 Masukkan nilai source dan destination yang diinginkan. Apabila nilai source atau destination lebih besar daripada jumlah vertices, hasilnya tidak akan keluar. Sebaliknya, function `DFS()` akan berjalan dengan memasukkan parameter `source`
-```
-printf("\nEnter the source: ");
+```printf("\nEnter the source: ");
 	scanf("%d", &source);
 	printf("Enter the destination: ");
 	scanf("%d", &dest);
@@ -112,4 +110,4 @@ Jika `G[i][j]` memiliki isi, dan `visited[j]` belum pernah ditandai, cost akan d
 Dari penjelasan diatas, dapat disimpulkan bahwa DFS tidak dapat mendapatkan nilai minimum cost, karena DFS tidak bisa balik ke keadaan semula dan membandingkan seluruh jalan yang telah dilewati.
 
 
-##Using UCS Search##
+## Using UCS Search ##
